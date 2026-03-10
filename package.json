@@ -1,0 +1,19 @@
+{
+  "name": "pw-e2e-automation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.3.3",
+    "allure-commandline": "^2.37.0",
+    "allure-playwright": "^3.6.0"
+  },
+  "dependencies": {
+    "-": "^0.0.1"
+  }
+}
