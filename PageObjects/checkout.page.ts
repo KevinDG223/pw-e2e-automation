@@ -30,30 +30,30 @@ export class CheckoutPage {
   }
 
   async validateDeliveryAddress(info: string[]) {
-    const addressContainer = this.page.locator('#address_delivery');
-    await addressContainer.waitFor({ state: 'visible', timeout: 7000 });
+    const addressContainer = this.page.locator('#address_delivery')
+    await addressContainer.waitFor({ state: 'visible', timeout: 7000 })
 
     for (const data of info) {
-      await expect(addressContainer).toContainText(data);
+      await expect(addressContainer).toContainText(data)
     }
 }
 
   async placeOrder(comment: string) {
-    await this.commentInput.fill(comment);
-    await this.placeOrderButton.click();
+    await this.commentInput.fill(comment)
+    await this.placeOrderButton.click()
   }
 
   async fillPaymentDetails(details: { name: string, number: string, cvc: string, month: string, year: string }) {
-    await this.nameOnCardInput.fill(details.name);
-    await this.cardNumberInput.fill(details.number);
-    await this.cvcInput.fill(details.cvc);
-    await this.expiryMonthInput.fill(details.month);
-    await this.expiryYearInput.fill(details.year);
-    await this.payButton.click();
+    await this.nameOnCardInput.fill(details.name)
+    await this.cardNumberInput.fill(details.number)
+    await this.cvcInput.fill(details.cvc)
+    await this.expiryMonthInput.fill(details.month)
+    await this.expiryYearInput.fill(details.year)
+    await this.payButton.click()
   }
 
   async verifyOrderPlaced() {
-    await expect(this.orderPlacedMessage).toHaveText('Order Placed!');
-    await this.continueButton.click();
+    await expect(this.orderPlacedMessage).toHaveText('Order Placed!')
+    await this.continueButton.click()
   }
 }

@@ -1,9 +1,9 @@
-import { test, expect } from './baseTest'
-import { LoginPage } from '../PageObjects/login.page'
-import { CatalogPage } from '../PageObjects/catalog.page'
-import { CartPage } from '../PageObjects/cart.page'
-import { CheckoutPage } from '../PageObjects/checkout.page'
-import * as testData from '../data/testData.json'
+import { test, expect } from '../../utils/baseTest'
+import { LoginPage } from '../../PageObjects/login.page'
+import { CatalogPage } from '../../PageObjects/catalog.page'
+import { CartPage } from '../../PageObjects/cart.page'
+import { CheckoutPage } from '../../PageObjects/checkout.page'
+import * as testData from '../../data/testData.json'
 
 test('E2E Buying Flow', async ({ page }) => {
   const loginPage = new LoginPage(page)
