@@ -85,9 +85,14 @@ export class CatalogPage {
         const categoryParent = this.categoryFilterOptions.locator('div.panel-default', {
             has: this.page.getByRole('link', { name: categoryName })
         })
-        await categoryParent.getByRole('link', { name: categoryName }).click()
-        const subcategoryLocator = categoryParent.getByRole('link', { name: subcategoryName })
 
+        const parentLink = categoryParent.getByRole('link', { name: categoryName })
+        await parentLink.scrollIntoViewIfNeeded()
+        await parentLink.click()
+
+        const subcategoryLocator = categoryParent.getByRole('link', { name: subcategoryName })
+        await subcategoryLocator.waitFor({ state: 'visible' })
+        await subcategoryLocator.scrollIntoViewIfNeeded()
         await subcategoryLocator.click()
 
         const categoryProducts = this.productList.filter({ hasText: subcategoryName })
