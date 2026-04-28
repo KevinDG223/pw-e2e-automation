@@ -5,6 +5,7 @@ import { expect, test } from "../../utils/baseTest"
 import { CheckoutPage } from "../../PageObjects/checkout.page"
 
 test.describe('Checkout Functionality Tests', () => {
+    test.describe.configure({ mode: 'serial' })
     test.beforeEach(async ({ page }) => {
         const loginPage = new LoginPage(page)
         const catalogPage = new CatalogPage(page)

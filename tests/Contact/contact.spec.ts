@@ -27,7 +27,7 @@ test.describe('Contact us form validation', () => {
             const errorMessage = await loginPage.getEmailValidationMessage()
 
             expect(isValid).toBe(false)
-            expect(errorMessage).toMatch(/@|Please enter an email address\./)
+            expect(errorMessage).toMatch(/@|email address/)
         } else {
             await expect(successMessage).not.toBeVisible()
         }

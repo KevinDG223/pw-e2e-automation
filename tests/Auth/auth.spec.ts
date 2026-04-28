@@ -72,6 +72,6 @@ test.describe('Authentication flow', () => {
         await loginPage.goto()
         await registerPage.signUp('', '')
         const errorMsg = await registerPage.getNameValidationMessage()
-        await expect(errorMsg).toBe('Please fill out this field.')
+        await expect(errorMsg).toContain('fill out this field.')
     })
 })

@@ -4,6 +4,7 @@ import { CatalogPage } from "../../PageObjects/catalog.page"
 import { test } from "../../utils/baseTest"
 
 test.describe('Cart Functionality Tests', () => {
+    test.describe.configure({ mode: 'serial' })
     test.beforeEach(async ({ page }) => {
         const loginPage = new LoginPage(page)
         const cartPage = new CartPage(page)
@@ -26,17 +27,6 @@ test.describe('Cart Functionality Tests', () => {
         await cartPage.validateCartRowCount(expectedProducts.length)
     })
 
-    test('Update product quantity in cart', async ({ page }) => {
-        const catalogPage = new CatalogPage(page)
-        const cartPage = new CartPage(page)
-
-        await catalogPage.searchProduct('T-shirt')
-        await catalogPage.detailedProductView(4)
-        await cartPage.goToCart()
-        await cartPage.validateCartRowCount(1)
-        await cartPage.validateProductQuantity('4')
-    })
-
     test('Remove products from cart and validate empty cart', async ({ page }) => {
         const catalogPage = new CatalogPage(page)
         const cartPage = new CartPage(page)
@@ -46,6 +36,17 @@ test.describe('Cart Functionality Tests', () => {
         await cartPage.goToCart()
         await cartPage.cleanCart()
         await cartPage.validateCartIsEmpty()
+    })
+
+    test('Update product quantity in cart', async ({ page }) => {
+        const catalogPage = new CatalogPage(page)
+        const cartPage = new CartPage(page)
+        
+        await catalogPage.searchProduct('Fancy Green Top')
+        await catalogPage.detailedProductView(4)
+        await cartPage.goToCart()
+        await cartPage.validateCartRowCount(1)
+        await cartPage.validateProductQuantity('4')
     })
 
     test('Persistance of cart contents after logout and login', async ({ page }) => {
