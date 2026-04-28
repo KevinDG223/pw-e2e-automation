@@ -1,123 +1,164 @@
-Playwright | TypeScript | GitHub Actions | E2E Testing
+# 🧪 Playwright E2E Automation — AutomationExercise
 
-🧪 Playwright E2E Automation – Buying Flow
+![Playwright](https://img.shields.io/badge/Playwright-TypeScript-blue?logo=playwright)
+![CI](https://img.shields.io/badge/CI-GitHub_Actions-green?logo=githubactions)
+![Browsers](https://img.shields.io/badge/Browsers-Chromium%20%7C%20Firefox%20%7C%20WebKit-orange)
+![Architecture](https://img.shields.io/badge/Architecture-POM-purple)
+![Report](https://img.shields.io/badge/Report-Allure-yellow)
 
-Automated End-to-End test suite built with Playwright + TypeScript that validates a complete e-commerce purchasing flow.
+Automated E2E test suite built with **Playwright + TypeScript** covering the core functional areas of an e-commerce application: authentication, product catalog, cart management, checkout, and contact form validation.
 
-This project demonstrates QA Automation best practices including:
-- Page Object Model (POM)
-- Test data separation
-- Reusable fixtures
-- Robust locators
-- Handling unstable UI elements (ads/popups)
-- CI execution with GitHub Actions
+---
 
-The test simulates a real user purchasing products from multiple categories and completing the checkout process.
+## 📋 Documentation
 
-📌 Test Scenario
+| Document | Description |
+|----------|-------------|
+| [📄 Test Plan](docs/test-plan.pdf) | Scope, objectives, strategy, risk analysis |
+| [📊 Test Cases](docs/test-cases.xlsx) | 30 test cases with expected results and execution status |
 
-The automated test covers the following E2E flow:
-1. Navigate to the application
-2. Login with valid credentials
-3. Clean the cart to ensure a stable test state
-4. Navigate through multiple product categories
-5. Randomly select products from each category
-6. Add products to the cart
-7. Validate cart contents
-8. Validate number of items
-9. Proceed to checkout
-10. Validate delivery address
-11. Fill payment information
-12. Place the order
-13. Verify successful order confirmation
-14. Logout
+---
 
-This ensures that the core purchasing workflow works correctly from start to finish.
+## ✅ Test Coverage
 
-🧱 Project Architecture
+The suite is organized into **5 spec files** plus an end-to-end scenario, each targeting a specific functional area:
 
-The framework follows the Page Object Model (POM) design pattern to improve maintainability and scalability.
+| Spec | Area | Scenarios |
+|------|------|-----------|
+| `auth.spec.ts` | Authentication | Registration, login/logout, invalid credentials, duplicate email, empty fields |
+| `products.spec.ts` | Product Catalog | Search, filter by brand, filter by category, invalid search |
+| `carts.spec.ts` | Cart Management | Add products, update quantity, remove products, cart persistence after re-login |
+| `checkout.spec.ts` | Checkout | Full order placement, checkout without login, address validation, empty payment fields |
+| `contact.spec.ts` | Contact Form | Valid submission, form validation errors |
+| `e2e/buyingFlow.spec.ts` | End-to-End | Login → Catalog → Cart → Checkout → Order confirmation → Logout |
+
+---
+
+## 🧱 Project Architecture
+
+The framework follows the **Page Object Model (POM)** design pattern to ensure maintainability and scalability.
+
 ```
 project-root
 │
-├── tests
-│   └── AutomationExercise.spec.ts
+├── tests/
+│   ├── auth.spec.ts
+│   ├── products.spec.ts
+│   ├── carts.spec.ts
+│   ├── checkout.spec.ts
+│   ├── contact.spec.ts
+│   └── e2e/
+│       └── buyingFlow.spec.ts
 │
-├── PageObjects
+├── PageObjects/
 │   ├── login.page.ts
+│   ├── register.page.ts
 │   ├── catalog.page.ts
 │   ├── cart.page.ts
-│   └── checkout.page.ts
+│   ├── checkout.page.ts
+│   └── contact.page.ts
 │
-├── data
+├── utils/
+│   └── baseTest.ts
+│
+├── data/
 │   └── testData.json
 │
-├── baseTest.ts
-├── playwright.config.ts
+├── docs/
+│   ├── test-plan.pdf
+│   └── test-cases.xlsx
 │
-└── .github/workflows
+├── playwright.config.ts
+└── .github/workflows/
     └── playwright.yml
 ```
 
-
 ### Responsibilities
 
-**Tests**
-- Contains high-level business flows
+**Tests** — High-level business flows organized by feature. Each spec uses `test.describe` with independent, self-contained test cases and explicit assertions.
 
-**Page Objects**
-- Encapsulate UI interactions
-- Improve readability and reusability
+**Page Objects** — Encapsulate all UI interactions and selectors, keeping the spec layer clean and readable.
 
-**Test Data**
-- External JSON file for product categories and selections
+**Base Test / Fixtures** — Custom Playwright fixture that handles ad blocking and popup dismissal on every test, ensuring a stable environment across all specs.
 
-**Base Test**
-- Custom Playwright fixture
-- Handles ad blocking and popup handling
+**Test Data** — External JSON file for product searches and reusable values, keeping specs free of hardcoded data.
 
-⚙️ Tech Stack
+---
 
-- Language: TypeScript
-- Framework: Playwright
-- Architecture: Page Object Model
-- CI/CD: GitHub Actions
-- Test Data: JSON
-- Assertions: Playwright Test Assertions
+## ⚙️ Tech Stack
 
-## Run Tests
+| Tool | Purpose |
+|------|---------|
+| TypeScript | Language |
+| Playwright | Test framework |
+| Page Object Model | Architecture pattern |
+| GitHub Actions | CI/CD pipeline |
+| Allure Report | Test reporting |
+| JSON | Test data management |
 
+---
+
+## 🚀 Run Tests
+
+```bash
 npm install
 npx playwright install
 npx playwright test
+```
 
-🔁 CI Integration
+Run a specific spec:
 
-The project includes GitHub Actions to run automated tests on every push.
+```bash
+npx playwright test tests/auth.spec.ts
+```
 
-Pipeline steps include:
+Run with UI mode:
 
-- Install dependencies
-- Install Playwright browsers
-- Execute test suite
-- Generate test results
+```bash
+npx playwright test --ui
+```
 
-This ensures tests can run automatically in a CI environment.
+Generate Allure report:
 
-<img width="1796" height="538" alt="image" src="https://github.com/user-attachments/assets/8a32adb4-57eb-4656-92c6-4ef54d124d3f" />
+```bash
+npx allure generate allure-results --clean && npx allure open
+```
 
+---
 
-## Test Execution
+## 🔁 CI Integration
 
-Example of the automated E2E buying flow:
+Tests run automatically on every push via **GitHub Actions** across three browsers: **Chromium, Firefox, and WebKit**.
+
+Pipeline steps:
+1. Install dependencies
+2. Install Playwright browsers
+3. Execute full test suite (headless)
+4. Generate Allure results
+5. Upload HTML report as artifact
+
+<img width="1796" alt="GitHub Actions run" src="https://github.com/user-attachments/assets/8a32adb4-57eb-4656-92c6-4ef54d124d3f" />
+
+---
+
+## 🎬 Test Execution
+
+Full E2E buying flow demo:
 
 [E2E-BuyingFlow.webm](https://github.com/user-attachments/assets/75c5087d-694d-4529-a2d2-7a0480106a93)
 
+---
+
 ## 🧠 Skills Demonstrated
 
-- End-to-End test automation with Playwright
-- Page Object Model architecture
-- Data-driven testing with JSON
-- Handling unstable UI elements and ads
-- Writing reusable test components
-- CI execution with GitHub Actions
+- End-to-end test automation with Playwright + TypeScript
+- Page Object Model for scalable, maintainable test architecture
+- `test.describe` grouping with independent, self-contained test cases
+- `beforeEach` hooks for DRY test setup and stable state management
+- Explicit assertions on every test case
+- Fixture-based approach for reusable cross-cutting concerns (ad/popup handling)
+- Data-driven testing with external JSON
+- Cross-browser testing across Chromium, Firefox, and WebKit
+- CI/CD execution with GitHub Actions
+- Allure Report integration for visual test reporting
+- QA documentation: Test Plan and Test Cases

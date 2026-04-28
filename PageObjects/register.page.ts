@@ -44,11 +44,11 @@ export class RegisterPage {
     readonly accountCreatedContinueButton: Locator
     readonly deleteAccountButton: Locator
     readonly accountDeletedText: Locator
-    readonly continueButton: Locator
+    readonly deleteContinueButton: Locator
     readonly existingEmailError: Locator
     readonly emptyFieldsError: Locator
 
-    constructor(page: Page){
+    constructor(page: Page) {
         this.page = page
         this.signupMenuButton = page.getByText('Signup / Login')
         this.nameInput = page.getByPlaceholder('Name')
@@ -75,11 +75,11 @@ export class RegisterPage {
 
         this.deleteAccountButton = page.getByRole('link', { name: 'Delete Account' })
         this.accountDeletedText = page.getByText('Account Deleted!')
-        this.continueButton = page.getByRole('link', { name: 'Continue' })
+        this.deleteContinueButton = page.getByRole('link', { name: 'Continue' })
 
         this.existingEmailError = page.getByText('Email Address already exist!')
         this.emptyFieldsError = page.getByText('New User Signup!')
-        
+
     }
 
     async signUp(name: string, email: string) {
@@ -92,14 +92,14 @@ export class RegisterPage {
     async register(details: UserDetails) {
         const genderIndex = details.gender === 'Mr' ? 0 : 1
         await this.titleRadioButtons.nth(genderIndex).check()
-        
+
         await this.passwordInput.fill(details.password)
         await this.daySelect.selectOption(details.day)
         await this.monthSelect.selectOption(details.month)
         await this.yearSelect.selectOption(details.year)
-        
+
         if (details.newsletter) await this.newsletterCheckbox.check()
-        
+
         await this.firstNameInput.fill(details.firstName)
         await this.lastNameInput.fill(details.lastName)
         await this.companyInput.fill(details.company)
@@ -109,16 +109,18 @@ export class RegisterPage {
         await this.cityInput.fill(details.city)
         await this.zipcodeInput.fill(details.zipcode)
         await this.mobileNumberInput.fill(details.mobile)
-        
         await this.createAccountButton.click()
+    }
 
-        await expect(this.accountCreatedText).toBeVisible()
+    async continueAfterRegister() {
         await this.accountCreatedContinueButton.click()
     }
 
     async deleteAccount() {
         await this.deleteAccountButton.click()
-        await expect(this.accountDeletedText).toBeVisible()
-        await this.continueButton.click()
+    }
+
+    async continueAfterDelete() {
+        await this.deleteContinueButton.click()
     }
 }

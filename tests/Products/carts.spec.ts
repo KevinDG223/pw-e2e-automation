@@ -61,5 +61,4 @@ test.describe('Cart Functionality Tests', () => {
         await cartPage.goToCart()
         await cartPage.validateProductsInCart(expectedProducts)
     })
-
 })

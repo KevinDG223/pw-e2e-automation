@@ -11,17 +11,25 @@ export default defineConfig({
     ['allure-playwright', { outputFolder: 'allure-results' }]
   ],
   use: {
-    headless: true,
-    video: 'on',
+    headless: !!process.env.CI,  // headless en CI, headed en local
+    video: 'retain-on-failure',
     viewport: { width: 1280, height: 720 },
     screenshot: 'only-on-failure',
-    trace: 'on',
+    trace: 'on-first-retry',
   },
 
   projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
-    }
+    },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
   ],
-});
+})

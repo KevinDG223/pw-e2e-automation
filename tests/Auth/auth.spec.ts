@@ -19,23 +19,18 @@ const userDetails: UserDetails = {
     zipcode: '90001',
     mobile: '1234567890'
 }
-test.describe('User Registration and Deletion', () => {
-    test('User registration', async ({ page }) => {
+test.describe('Authentication flow', () => {
+    test('User can register and delete their account', async ({ page }) => {
         const registerPage = new RegisterPage(page)
         const loginPage = new LoginPage(page)
 
         await loginPage.goto()
         await registerPage.signUp('Kevin Testing', 'kevin.testing@example.com')
         await registerPage.register(userDetails)
-    })
-
-    test('User deletion', async ({ page }) => {
-        const registerPage = new RegisterPage(page)
-        const loginPage = new LoginPage(page)
-
-        await loginPage.goto()
-        await loginPage.login('kevin.testing@example.com', 'Test1234')
-        await registerPage.deleteAccount()
+        await expect(registerPage.accountCreatedText).toBeVisible()
+        await registerPage.continueAfterRegister()
+        await expect(registerPage.accountDeletedText).toBeVisible()
+        await registerPage.continueAfterDelete()
     })
 
     test('Login and logout with valid credentials', async ({ page }) => {

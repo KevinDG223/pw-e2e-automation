@@ -14,7 +14,7 @@ export class CheckoutPage {
   readonly orderPlacedMessage: Locator
   readonly continueButton: Locator
 
-  constructor(page: Page){
+  constructor(page: Page) {
     this.page = page
     this.addressItems = page.locator('#address_delivery li')
     this.commentInput = page.locator('.form-control')
@@ -29,6 +29,12 @@ export class CheckoutPage {
     this.continueButton = page.locator('[data-qa="continue-button"]')
   }
 
+  async getDeliveryAddress() {
+    const addressContainer = this.page.locator('#address_delivery')
+    await addressContainer.waitFor({ state: 'visible', timeout: 7000 })
+    return addressContainer
+  }
+
   async validateDeliveryAddress(info: string[]) {
     const addressContainer = this.page.locator('#address_delivery')
     await addressContainer.waitFor({ state: 'visible', timeout: 7000 })
@@ -36,7 +42,7 @@ export class CheckoutPage {
     for (const data of info) {
       await expect(addressContainer).toContainText(data)
     }
-}
+  }
 
   async placeOrder(comment: string) {
     await this.commentInput.fill(comment)
