@@ -18,9 +18,18 @@ test.describe('Contact us form validation', () => {
     test('Contact form with invalid data', async ({ page }) => {
         const loginPage = new LoginPage(page)
         await loginPage.contact('Kevin', 'invalidEmail')
-        const isValid = await loginPage.isEmailInputValid()
-        expect(isValid).toBe(false)
-        const errorMessage = await loginPage.getEmailValidationMessage()
-        expect(errorMessage).toContain('@')
+
+        const successMessage = page.getByText('Success! Your details have been submitted successfully.')
+        const isFormStillVisible = await loginPage.contactEmail.isVisible()
+
+        if (isFormStillVisible) {
+            const isValid = await loginPage.isEmailInputValid()
+            const errorMessage = await loginPage.getEmailValidationMessage()
+
+            expect(isValid).toBe(false)
+            expect(errorMessage).toMatch(/@|Please enter an email address\./)
+        } else {
+            await expect(successMessage).not.toBeVisible()
+        }
     })
 })

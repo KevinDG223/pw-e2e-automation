@@ -64,7 +64,7 @@ export class LoginPage {
 
   async isEmailInputValid() {
     return await this.contactEmail.evaluate((input: HTMLInputElement) => input.checkValidity());
-}
+  }
 
   async logout() {
     await this.logoutButton.click()
