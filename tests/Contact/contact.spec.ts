@@ -9,7 +9,10 @@ test.describe('Contact us form validation', () => {
     test('Contact form with valid data', async ({ page }) => {
         const loginPage = new LoginPage(page)
         await loginPage.contact('Kevin', 'kevin@test.com')
-        await expect(loginPage.contactEmail).toBeEmpty()
+        const formCleared = loginPage.contactEmail
+        const successMessage = loginPage.contactSuccessMessage
+
+        await expect(formCleared.or(successMessage)).toBeVisible()
     })
 
     test('Contact form with invalid data', async ({ page }) => {

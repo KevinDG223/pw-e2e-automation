@@ -10,7 +10,7 @@ test.describe('Cart Functionality Tests', () => {
         const catalogPage = new CatalogPage(page)
 
         await loginPage.goto()
-        await loginPage.login('kevin-pw@test.com', 'Test1234')
+        await loginPage.login('kevin-cart@test.com', 'Test1234')
         await cartPage.cleanCart()
         await catalogPage.goToProducts()
     })

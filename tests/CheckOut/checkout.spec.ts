@@ -11,7 +11,7 @@ test.describe('Checkout Functionality Tests', () => {
         const cartPage = new CartPage(page)
 
         await loginPage.goto()
-        await loginPage.login('kevin-pw@test.com', 'Test1234')
+        await loginPage.login('kevin-checkout@test.com', 'Test1234')
         await cartPage.cleanCart()
         await catalogPage.goToProducts()
         await catalogPage.searchAndAddMultipleProducts(['T-shirt', 'Jeans'])
@@ -30,7 +30,7 @@ test.describe('Checkout Functionality Tests', () => {
 
         await cartPage.proceedToCheckout()
 
-        const myAddress = ['Mr. Kevin Playwright', 'Playwright', 'Evergreen terrace', 'United States', '1234645092434']
+        const myAddress = ['Mr. Kevin Testing', 'Testing Co', 'Evergreen Terrace', 'United States', '1234567890']
         const addressContainer = await checkoutPage.getDeliveryAddress()
         for (const data of myAddress) {
             await expect(addressContainer).toContainText(data)

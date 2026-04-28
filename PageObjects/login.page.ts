@@ -15,6 +15,7 @@ export class LoginPage {
   readonly contactSubject: Locator
   readonly contactMessage: Locator
   readonly contactSubmit: Locator
+  readonly contactSuccessMessage: Locator
 
   constructor(page: Page) {
     this.page = page
@@ -32,6 +33,7 @@ export class LoginPage {
     this.contactSubject = page.getByPlaceholder('Subject')
     this.contactMessage = page.getByPlaceholder('Your Message Here')
     this.contactSubmit = page.locator('[name="submit"]')
+    this.contactSuccessMessage = page.getByText('Success! Your details have been submitted successfully.').first()
   }
 
   async goto() {
@@ -54,7 +56,6 @@ export class LoginPage {
     await this.contactSubject.fill('Test')
     await this.contactMessage.fill('This is a test')
     await this.contactSubmit.click()
-
   }
 
   async getEmailValidationMessage() {

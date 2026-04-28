@@ -88,6 +88,11 @@ export class RegisterPage {
         await this.emailInput.fill(email)
         await this.signupButton.click()
     }
+    get newnameInput() { return this.page.getByPlaceholder('Name') }
+    async getNameValidationMessage() {
+        // Esto extrae el mensaje que el navegador genera internamente
+        return await this.newnameInput.evaluate((node: HTMLInputElement) => node.validationMessage)
+    }
 
     async register(details: UserDetails) {
         const genderIndex = details.gender === 'Mr' ? 0 : 1

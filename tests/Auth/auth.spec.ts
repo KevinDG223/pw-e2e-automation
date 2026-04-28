@@ -29,6 +29,7 @@ test.describe('Authentication flow', () => {
         await registerPage.register(userDetails)
         await expect(registerPage.accountCreatedText).toBeVisible()
         await registerPage.continueAfterRegister()
+        await registerPage.deleteAccount()
         await expect(registerPage.accountDeletedText).toBeVisible()
         await registerPage.continueAfterDelete()
     })
@@ -70,6 +71,7 @@ test.describe('Authentication flow', () => {
 
         await loginPage.goto()
         await registerPage.signUp('', '')
-        await expect(registerPage.emptyFieldsError).toBeVisible()
+        const errorMsg = await registerPage.getNameValidationMessage()
+        await expect(errorMsg).toBe('Please fill out this field.')
     })
 })
