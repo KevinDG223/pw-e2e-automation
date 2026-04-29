@@ -11,7 +11,7 @@ export default defineConfig({
     ['allure-playwright', { outputFolder: 'allure-results' }]
   ],
   use: {
-    headless: true,//!!process.env.CI,
+    headless: !!process.env.CI,
     video: 'retain-on-failure',
     viewport: { width: 1280, height: 720 },
     screenshot: 'only-on-failure',
